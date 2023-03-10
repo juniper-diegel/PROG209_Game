@@ -22,26 +22,26 @@ const MAZE = {
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
     ],
     start: {
-        X: 0,
-        Y: 1
+        x: 0,
+        y: 1
     },
     end: {
-        X: 19,
-        Y: 18
+        x: 19,
+        y: 18
     }
 }
 
 const ASSET_WIDTH = 50;
 const ASSET_HEIGHT = 50;
 
-const MARGIN_TOP = 50;
+const MARGIN_TOP = 0;
 const MARGIN_LEFT = 100;
 
 const canvas = document.createElement("canvas");
 const context = canvas.getContext("2d");
 
 canvas.width = (MAZE.maze.length + 4) * ASSET_WIDTH;
-canvas.height = (MAZE.maze[0].length + 5) * ASSET_HEIGHT;
+canvas.height = (MAZE.maze[0].length + 1) * ASSET_HEIGHT;
 document.body.appendChild(canvas);
 
 const backgroundImage = new Image();
