@@ -42,26 +42,20 @@ Renderer.prototype.render = function(context, assets, levelMaze) {
         }
         if (background.isLoaded()) {
             renderer.renderBackground(context, background.getElement(), { x: 0, y: 0 });
-        } else {
-            background.setLoaded(true);
         }
     }
 
     function __internal__renderMaze(renderer, level) {
-        const treeImage = assets["tree"];
-        const roadImage = assets["road"];
+        const tree = assets["tree"];
+        const road = assets["road"];
 
-        if (!treeImage || !roadImage) {
+        if (!tree || !road) {
             return;
         }
-        if (treeImage.isLoaded() && roadImage.isLoaded()) {
+        if (tree.isLoaded() && road.isLoaded()) {
             const treeImage = assets["tree"].getElement();
             const roadImage = assets["road"].getElement();
             renderer.renderMaze(context, { treeImage, roadImage }, level.maze);
-        } else if (!treeImage.isLoaded()) {
-            treeImage.setLoaded(true);
-        } else if (!roadImage.isLoaded()) {
-            roadImage.setLoaded(true);
         }
     }
 
