@@ -4,7 +4,6 @@ const renderer = new Renderer();
 const context = resources.context;
 const assets = resources.assets;
 
-
 let lastTime;
 
 function render() {

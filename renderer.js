@@ -8,7 +8,7 @@ Renderer.prototype.renderBackground = function(context, backgroundAsset, { x, y 
 
 Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze) {
 
-    function __internal_renderNature(image, { i, j }) {
+    function __internal__renderNature(image, { i, j }) {
         context.drawImage(image,
             CONFIG.asset.width * j + CONFIG.asset.marginLeft,
             CONFIG.asset.height * i + CONFIG.asset.marginTop,
@@ -19,17 +19,22 @@ Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze
         for (let j = 0; j < maze[0].length; j++) {
             switch (maze[i][j]) {
                 case 1:
-                    __internal_renderNature(treeImage, { i, j });
+                    __internal__renderNature(treeImage, { i, j });
                     break;
                 case 0:
-                    __internal_renderNature(roadImage, { i, j });
+                    __internal__renderNature(roadImage, { i, j });
                     break;
             }
         }
     }
 }
 
+Renderer.prototype.renderPlayer = function(context, playerAsset, { x, y }) {
+
+}
+
 Renderer.prototype.render = function(context, assets, levelMaze) {
+
     function __internal__renderBackground(renderer) {
         const background = assets["background"];
         if (!background) {
@@ -41,7 +46,6 @@ Renderer.prototype.render = function(context, assets, levelMaze) {
             background.setLoaded(true);
         }
     }
-
 
     function __internal__renderMaze(renderer, level) {
         const treeImage = assets["tree"];
@@ -61,6 +65,15 @@ Renderer.prototype.render = function(context, assets, levelMaze) {
         }
     }
 
+    function __internal__renderPlayer(renderer, level) {
+
+        // some check
+
+        // call render function
+        // renderer.renderPlayer(context, playerAsset, level.start);
+    }
+
     __internal__renderBackground(this);
     __internal__renderMaze(this, levelMaze);
+    // __internal__renderPlayer(this, levelMaze);
 }
