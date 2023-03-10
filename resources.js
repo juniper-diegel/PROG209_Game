@@ -23,5 +23,3 @@ function Resources() {
     this.context = __internal__initContext();
     this.assets = __internal__initAssets();
 }
-
-

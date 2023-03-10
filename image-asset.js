@@ -7,7 +7,6 @@ function ImageAsset(src) {
     }
 }
 
-
 ImageAsset.prototype.isLoaded = function() {
     return this.loaded;
 }

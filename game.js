@@ -15,6 +15,9 @@ function update(deltaTime) {
 
 function gameLoop() {
     let now = Date.now();
+    if (!lastTime) {
+        lastTime = now;
+    }
     let delta = now - lastTime;
 
     update(delta / 1000);
