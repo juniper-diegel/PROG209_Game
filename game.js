@@ -11,7 +11,7 @@ let startTime;
 let timePassed;
 
 function normalizeTimePassed(value) {
-    let minutes = Math.floor(value / 60);
+    let minutes = Math.trunc(value / 60);
     let seconds = value % 60;
     return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0")
 }
@@ -51,9 +51,10 @@ function gameLoop() {
 
 function calculateSecondPassed(startInLoop, startGameTime) {
     let seconds = Math.floor((startInLoop - startGameTime) / 1000);
+    let minutes = Math.floor(seconds / 60);
     seconds %= 60;
 
-    return seconds;
+    return minutes * 60 + seconds;
 }
 
 function startGame() {
