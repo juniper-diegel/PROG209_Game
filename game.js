@@ -30,7 +30,7 @@ function gameOver() {
 
 function update(deltaTime, secondPassed) {
     timePassed = secondPassed;
-    if (timePassed === MAZE_LEVEL_1.timeLimit) {
+    if (timePassed >= MAZE_LEVEL_1.timeLimit) {
         isOver = true;
         return;
     }
