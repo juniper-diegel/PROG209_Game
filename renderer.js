@@ -33,6 +33,12 @@ Renderer.prototype.renderPlayer = function(context, playerAsset, { x, y }) {
 
 }
 
+Renderer.prototype.renderTimeLimit = function(context, text) {
+    context.font = "48px serif"
+    context.fillStyle = "#ff0000"
+    context.fillText(text, 550, 50);
+}
+
 Renderer.prototype.render = function(context, assets, levelMaze) {
 
     function __internal__renderBackground(renderer) {

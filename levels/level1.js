@@ -28,5 +28,6 @@ const MAZE_LEVEL_1 = new Level({
     end: {
         x: 19,
         y: 18
-    }
+    },
+    timeLimit: 300
 });

@@ -4,7 +4,12 @@ function Resources() {
         const context = canvas.getContext("2d");
 
         canvas.width = (CONFIG.maze.row + 4) * CONFIG.asset.width;
-        canvas.height = (CONFIG.maze.column + 1) * CONFIG.asset.height;
+        canvas.height = (CONFIG.maze.column + 2) * CONFIG.asset.height;
+
+        CONFIG.canvas = {
+            width: canvas.width,
+            height: canvas.height
+        };
 
         document.body.appendChild(canvas);
 

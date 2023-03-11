@@ -1,7 +1,8 @@
 function Level({
     maze,
     start,
-    end
+    end,
+    timeLimit
 }) {
     if (maze.length != CONFIG.maze.row || (maze[0] && maze[0].length != CONFIG.maze.column)) {
         throw new Error("Invalid Maze");
@@ -9,4 +10,5 @@ function Level({
     this.maze = maze;
     this.start = start;
     this.end = end;
+    this.timeLimit = timeLimit;
 }

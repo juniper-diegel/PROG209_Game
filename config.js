@@ -6,7 +6,7 @@ const CONFIG = {
     asset: {
         width: 50,
         height: 50,
-        marginTop: 0,
+        marginTop: 50,
         marginLeft: 100
     },
 }
