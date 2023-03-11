@@ -62,11 +62,7 @@ function gameLoop() {
 }
 
 function calculateSecondPassed(startInLoop, startGameTime) {
-    let seconds = Math.floor((startInLoop - startGameTime) / 1000);
-    let minutes = Math.floor(seconds / 60);
-    seconds %= 60;
-
-    return minutes * 60 + seconds;
+    return Math.floor((startInLoop - startGameTime) / 1000);
 }
 
 function startGame() {

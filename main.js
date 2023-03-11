@@ -14,5 +14,5 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementById("game-over-screen").style = "display: none";
         runGame();
     });
-    
+
 });
