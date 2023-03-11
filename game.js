@@ -20,7 +20,6 @@ function normalizeTimePassed(value) {
 function reset() {
     lastTime = startTime = Date.now();
     timePassed = 0;
-    isOver = false;
 }
 
 function gameOver() {
@@ -32,8 +31,8 @@ function gameOver() {
 function update(deltaTime, secondPassed) {
     timePassed = secondPassed;
     if (timePassed === MAZE_LEVEL_1.timeLimit) {
-        alert("GAME OVER");
-        reset();
+        isOver = true;
+        return;
     }
 }
 
@@ -44,8 +43,8 @@ function render() {
 
 function gameLoop() {
     if (isOver) {
-        reset();
         gameOver();
+        reset();
         return;
     }
     let now = Date.now();
@@ -71,6 +70,7 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 }
 
 function startGame() {
+    isOver = false;
     reset();
     gameLoop();
 }
