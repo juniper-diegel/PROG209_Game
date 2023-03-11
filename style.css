@@ -1,11 +1,13 @@
-#start-screen {
+.gif {
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 100%;
 }
-
+#game-over-screen {
+    display: none
+}
 body {
     background: black;
 }

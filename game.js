@@ -9,6 +9,7 @@ let startTime;
 
 // GAME variables
 let timePassed;
+let isOver = false;
 
 function normalizeTimePassed(value) {
     let minutes = Math.trunc(value / 60);
@@ -19,6 +20,13 @@ function normalizeTimePassed(value) {
 function reset() {
     lastTime = startTime = Date.now();
     timePassed = 0;
+    isOver = false;
+}
+
+function gameOver() {
+    context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
+    document.getElementById("game-over-screen").style = "display: block"
+    stopAudio(document.getElementById("audio"));
 }
 
 function update(deltaTime, secondPassed) {
@@ -35,6 +43,11 @@ function render() {
 }
 
 function gameLoop() {
+    if (isOver) {
+        reset();
+        gameOver();
+        return;
+    }
     let now = Date.now();
     if (!lastTime) {
         lastTime = now;
@@ -58,7 +71,7 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 }
 
 function startGame() {
-    startTime = lastTime = Date.now();
+    reset();
     gameLoop();
 }
 
