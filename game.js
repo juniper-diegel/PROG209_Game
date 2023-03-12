@@ -16,13 +16,17 @@ function update(deltaTime, secondPassed) {
     if (gameState.gameOverChecker(secondPassed)) {
         return;
     }
+
+
 }
 
 function render() {
     renderer.clear();
     renderer.renderMap(context, assets, gameState.currentLevel);
     renderer.renderTimeLimit(context, gameState.timePassed);
-    renderer.renderPlayer(context, gameState.gameFrame, gameState.currentPlayer, assets["player"].getElement());
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.currentEnemy, assets["enemy"].getElement(), ENEMY_ANIMATIONS);
+
 }
 
 function gameLoop() {

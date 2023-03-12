@@ -26,3 +26,28 @@ const PLAYER_ANIMATIONS = {
         ]
     }
 }
+
+const ENEMY_ANIMATIONS = {
+    idle: {
+        frames: 5,
+        width: 48.25,
+        height: 60,
+        loc: [
+            { x: 48.25, y: 0 },
+            { x: 96.5, y: 0 },
+            { x: 144.75, y: 0 },
+            { x: 193, y: 0 },
+            { x: 241.25, y: 0 }
+        ]
+    },
+    move: {
+        frames: 3,
+        width: 42,
+        height: 60,
+        loc: [
+            { x: 0, y: 0 },
+            { x: 42, y: 0 },
+            { x: 84, y: 0 }
+        ]
+    }
+}

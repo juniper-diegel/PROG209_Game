@@ -32,22 +32,22 @@ Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze
     }
 }
 
-Renderer.prototype.renderPlayer = function(context, gameFrame, player, playerAsset) {
+Renderer.prototype.renderPlayer = function(context, gameFrame, player, playerAsset, animations) {
     let playerState = player.currentState;
 
-    let spriteWidth = PLAYER_ANIMATIONS[playerState].width;
-    let spriteHeight = PLAYER_ANIMATIONS[playerState].height;
+    let spriteWidth = animations[playerState].width;
+    let spriteHeight = animations[playerState].height;
 
-    let position = Math.floor(gameFrame / CONFIG.game.staggerFrames) % PLAYER_ANIMATIONS[playerState].frames;
+    let position = Math.floor(gameFrame / CONFIG.game.staggerFrames) % animations[playerState].frames;
 
-    let frameX = PLAYER_ANIMATIONS[playerState].loc[position].x;
-    let frameY = PLAYER_ANIMATIONS[playerState].loc[position].y;
+    let frameX = animations[playerState].loc[position].x;
+    let frameY = animations[playerState].loc[position].y;
 
     context.drawImage(playerAsset, frameX, frameY * spriteHeight,
         spriteWidth, spriteHeight,
         CONFIG.asset.marginLeft + player.x * CONFIG.asset.width, CONFIG.asset.marginTop + player.y * CONFIG.asset.height,
         player.width, player.height);
-}
+    }
 
 Renderer.prototype.renderTimeLimit = function(context, value) {
     function __internal__normalizeTimePassed(value) {

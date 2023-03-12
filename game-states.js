@@ -6,6 +6,7 @@ function GameState(context) {
             
                 this.currentLevel = null;
                 this.currentPlayer = null;
+                this.currentEnemy = null;
             
                 this.context = context;
             }
@@ -39,6 +40,9 @@ function GameState(context) {
                 this.currentLevel = getLatestLevelByUser("");
                 this.currentPlayer = new PlayerEntity({
                     startPos: this.currentLevel.start
+                });
+                this.currentEnemy = new PlayerEntity({
+                    startPos: this.currentLevel.enemySpawn
                 });
             }
             

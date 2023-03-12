@@ -29,5 +29,9 @@ const MAZE_LEVEL_1 = new Level({
         x: 19,
         y: 18
     },
+    enemySpawn: {
+        x: 2,
+        y: 18
+    },
     timeLimit: 300
 });
