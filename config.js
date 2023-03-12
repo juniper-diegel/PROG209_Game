@@ -10,6 +10,6 @@ const CONFIG = {
         marginLeft: 100
     },
     game: {
-        staggerFrames: 5
+        staggerFrames: 5 
     }
 }

@@ -6,5 +6,8 @@ function EnemyEntity({
     this.width = CONFIG.asset.width;
     this.height = CONFIG.asset.height;
     this.speed = Math.random() * 4 - 2;
-    this.currentState = "idle";
+    this.currentState = {
+        type: "idle",
+        name: "idle"
+    }
 }
