@@ -4,12 +4,7 @@ const renderer = new Renderer();
 const context = resources.context;
 const assets = resources.assets;
 
-let lastTime;
-let startTime;
-
-// GAME variables
-let timePassed;
-let isOver = false;
+const gameState = new GameState(context);
 
 function normalizeTimePassed(value) {
     let minutes = Math.trunc(value / 60);
@@ -17,46 +12,37 @@ function normalizeTimePassed(value) {
     return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0")
 }
 
-function reset() {
-    lastTime = startTime = Date.now();
-    timePassed = 0;
-}
-
-function gameOver() {
-    context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
-    document.getElementById("game-over-screen").style = "display: block"
-    stopAudio(document.getElementById("audio"));
-}
-
 function update(deltaTime, secondPassed) {
-    timePassed = secondPassed;
-    if (timePassed >= MAZE_LEVEL_1.timeLimit) {
-        isOver = true;
+    if (gameState.gameOverChecker(secondPassed)) {
         return;
     }
 }
 
 function render() {
-    renderer.render(context, assets, MAZE_LEVEL_1);
-    renderer.renderTimeLimit(context, normalizeTimePassed(timePassed));
+    renderer.clear();
+    renderer.renderMap(context, assets, gameState.currentLevel);
+    renderer.renderTimeLimit(context, gameState.timePassed);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.currentPlayer, assets["player"].getElement());
 }
 
 function gameLoop() {
-    if (isOver) {
-        gameOver();
-        reset();
+    if (gameState.isGameOver()) {
+        gameState.gameOver();
+        gameState.reset();
         return;
     }
     let now = Date.now();
+    let lastTime = gameState.lastTime;
     if (!lastTime) {
         lastTime = now;
     }
     let delta = now - lastTime;
 
-    let secondPassed = calculateSecondPassed(now, startTime);
+    let secondPassed = calculateSecondPassed(now, gameState.startTime);
     update(delta / 1000, secondPassed);
     render();
-    lastTime = now;
+    gameState.lastTime = now;
+    gameState.gameFrame++;
 
     requestAnimationFrame(gameLoop);
 }
@@ -66,8 +52,7 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 }
 
 function startGame() {
-    isOver = false;
-    reset();
+    gameState.start();
     gameLoop();
 }
 

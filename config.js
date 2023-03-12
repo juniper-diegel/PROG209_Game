@@ -9,4 +9,7 @@ const CONFIG = {
         marginTop: 50,
         marginLeft: 100
     },
+    game: {
+        staggerFrames: 5
+    }
 }

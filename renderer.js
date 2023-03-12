@@ -1,6 +1,9 @@
 function Renderer() {
 
 }
+Renderer.prototype.clear = function() {
+    context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.heigth);
+}
 
 Renderer.prototype.renderBackground = function(context, backgroundAsset, { x, y }) {
     context.drawImage(backgroundAsset, x, y);
@@ -29,17 +32,36 @@ Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze
     }
 }
 
-Renderer.prototype.renderPlayer = function(context, playerAsset, { x, y }) {
+Renderer.prototype.renderPlayer = function(context, gameFrame, player, playerAsset) {
+    let playerState = player.currentState;
 
+    let spriteWidth = PLAYER_ANIMATIONS[playerState].width;
+    let spriteHeight = PLAYER_ANIMATIONS[playerState].height;
+
+    let position = Math.floor(gameFrame / CONFIG.game.staggerFrames) % PLAYER_ANIMATIONS[playerState].frames;
+
+    let frameX = PLAYER_ANIMATIONS[playerState].loc[position].x;
+    let frameY = PLAYER_ANIMATIONS[playerState].loc[position].y;
+
+    context.drawImage(playerAsset, frameX, frameY * spriteHeight,
+        spriteWidth, spriteHeight,
+        CONFIG.asset.marginLeft + player.x * CONFIG.asset.width, CONFIG.asset.marginTop + player.y * CONFIG.asset.height,
+        player.width, player.height);
 }
 
-Renderer.prototype.renderTimeLimit = function(context, text) {
+Renderer.prototype.renderTimeLimit = function(context, value) {
+    function __internal__normalizeTimePassed(value) {
+        let minutes = Math.trunc(value / 60);
+        let seconds = value % 60;
+        return minutes.toString().padStart(2, "0") + ":" + seconds.toString().padStart(2, "0")
+    }
+
     context.font = "48px serif"
     context.fillStyle = "#ff0000"
-    context.fillText(text, CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, 50);
+    context.fillText(__internal__normalizeTimePassed(value), CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, 50);
 }
 
-Renderer.prototype.render = function(context, assets, levelMaze) {
+Renderer.prototype.renderMap = function(context, assets, levelMaze) {
 
     function __internal__renderBackground(renderer) {
         const background = assets["background"];
@@ -65,15 +87,6 @@ Renderer.prototype.render = function(context, assets, levelMaze) {
         }
     }
 
-    function __internal__renderPlayer(renderer, level) {
-
-        // some check
-
-        // call render function
-        // renderer.renderPlayer(context, playerAsset, level.start);
-    }
-
     __internal__renderBackground(this);
     __internal__renderMaze(this, levelMaze);
-    // __internal__renderPlayer(this, levelMaze);
 }

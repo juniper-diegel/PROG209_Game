@@ -21,6 +21,7 @@ function Resources() {
         assets["background"] = new ImageAsset("assets/background.jpg");
         assets["tree"] = new ImageAsset("assets/tree.png");
         assets["road"] = new ImageAsset("assets/road.png");
+        assets["player"] = new ImageAsset("assets/player-2.png");
 
         return assets;
     }
