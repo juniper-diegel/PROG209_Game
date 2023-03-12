@@ -5,7 +5,7 @@ function PlayerEntity({
     this.y = startPos.y;
     this.width = CONFIG.asset.width;
     this.height = CONFIG.asset.height;
-    this.speed = 0.45;
+    this.speed = 1.5;
     this.faceTo = "right";
     this.direction = "right";
     this.currentState = {
@@ -69,11 +69,13 @@ PlayerEntity.prototype.move = function(direction) {
     });
 }
 
-PlayerEntity.prototype.keepMoving = function() {
-    this.move(this.direction);
-    setTimeout(() => this.idle(), 300);
+PlayerEntity.prototype.niceMove = function(direction, deltaTime) {
+    this.changePosition({
+        direction: direction,
+        type: "move",
+        speed: this.speed * deltaTime
+    });
 }
-
 
 PlayerEntity.prototype.attack = function(direction) {
     this.changePosition({
@@ -89,4 +91,23 @@ PlayerEntity.prototype.turn = function(faceTo) {
         type: oldCurrentState.type,
         name: oldCurrentState.type + this.faceTo.capitalize()
     }
+}
+
+PlayerEntity.prototype.update = function(input, deltaTime) {
+    if (input.includes("ArrowLeft")) {
+        this.niceMove("left", deltaTime);
+    }
+    if (input.includes("ArrowRight")) {
+        this.niceMove("right", deltaTime);
+    }
+    if (input.includes("ArrowUp")) {
+        this.niceMove("up", deltaTime);
+    }
+    if (input.includes("ArrowDown")) {
+        this.niceMove("down", deltaTime);
+    }
+    if (input.includes("ShiftLeft")) {
+        this.attack(this.faceTo);
+    }
+    setTimeout(() => this.idle(), 200);
 }

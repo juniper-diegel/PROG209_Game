@@ -1,5 +1,6 @@
 const resources = new Resources();
 const renderer = new Renderer();
+const inputHandler = new InputHandler();
 
 const context = resources.context;
 const assets = resources.assets;
@@ -13,6 +14,7 @@ function normalizeTimePassed(value) {
 }
 
 function update(deltaTime, secondPassed) {
+    gameState.currentPlayer.update(inputHandler.keys, deltaTime);
     if (gameState.gameOverChecker(secondPassed)) {
         return;
     }
