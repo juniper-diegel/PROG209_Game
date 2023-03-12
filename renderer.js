@@ -12,11 +12,6 @@ Renderer.prototype.renderBackground = function(context, backgroundAsset, { x, y 
 Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze) {
 
     function __internal__renderNature(image, { i, j }) {
-        if (CONFIG.game.debug) {
-            context.strokeRect(CONFIG.asset.width * j + CONFIG.asset.marginLeft,
-                CONFIG.asset.height * i + CONFIG.asset.marginTop,
-                CONFIG.asset.width, CONFIG.asset.height);
-        }
         context.drawImage(image,
             CONFIG.asset.width * j + CONFIG.asset.marginLeft,
             CONFIG.asset.height * i + CONFIG.asset.marginTop,
@@ -37,47 +32,22 @@ Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze
     }
 }
 
-Renderer.prototype.renderCharacter = function(context, gameFrames, character, playerAsset, animations) {
-    function __internal__fixedStaggerFrames(animationsFrames) {
-        return animationsFrames > 3 ? CONFIG.game.staggerFrames : CONFIG.game.staggerFrames + 3;
-    }
+Renderer.prototype.renderPlayer = function(context, gameFrame, player, playerAsset, animations) {
+    let playerState = player.currentState;
 
-    function __internal__getSpriteSize(animationObject, pos) {
-        if (animationObject.width && animationObject.height) {
-            return { spriteWidth: animationObject.width, spriteHeight: animationObject.height };
-        }
+    let spriteWidth = animations[playerState].width;
+    let spriteHeight = animations[playerState].height;
 
-        if (animationObject.loc[pos]) {
-            if (animationObject.loc[pos].w && animationObject.loc[pos].h) {
-                return { spriteWidth: animationObject.loc[pos].w, spriteHeight: animationObject.loc[pos].h };
-            }
-        }
+    let position = Math.floor(gameFrame / CONFIG.game.staggerFrames) % animations[playerState].frames;
 
-        return null;
-    }
+    let frameX = animations[playerState].loc[position].x;
+    let frameY = animations[playerState].loc[position].y;
 
-    let state = character.currentState;
-
-    let characterState = character.currentState.name;
-    let frames = animations[characterState].frames;
-    let position = Math.floor(gameFrames / __internal__fixedStaggerFrames(frames)) % frames;
-
-    let { spriteWidth, spriteHeight } = __internal__getSpriteSize(animations[characterState], position);
-
-    let frameX = animations[characterState].loc[position].x;
-    let frameY = animations[characterState].loc[position].y;
-
-    let x = CONFIG.asset.marginLeft + character.x * CONFIG.asset.width;
-    let y = CONFIG.asset.marginTop + character.y * CONFIG.asset.height;
-
-    if (CONFIG.game.debug) {
-        context.strokeRect(x, y, character.width, character.height);
-    }
-    context.drawImage(playerAsset, frameX, frameY,
+    context.drawImage(playerAsset, frameX, frameY * spriteHeight,
         spriteWidth, spriteHeight,
-        x, y,
-        character.width, character.height);
-}
+        CONFIG.asset.marginLeft + player.x * CONFIG.asset.width, CONFIG.asset.marginTop + player.y * CONFIG.asset.height,
+        player.width, player.height);
+    }
 
 Renderer.prototype.renderTimeLimit = function(context, value) {
     function __internal__normalizeTimePassed(value) {
@@ -88,8 +58,7 @@ Renderer.prototype.renderTimeLimit = function(context, value) {
 
     context.font = "48px serif"
     context.fillStyle = "#ff0000"
-    context.fillText(__internal__normalizeTimePassed(value), 
-        CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, CONFIG.asset.marginTop - 15);
+    context.fillText(__internal__normalizeTimePassed(value), CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, 50);
 }
 
 Renderer.prototype.renderMap = function(context, assets, levelMaze) {

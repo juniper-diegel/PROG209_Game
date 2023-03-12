@@ -10,7 +10,6 @@ function Resources() {
             width: canvas.width,
             height: canvas.height
         };
-        context.strokeStyle = "#FF0000";
 
         document.body.appendChild(canvas);
 

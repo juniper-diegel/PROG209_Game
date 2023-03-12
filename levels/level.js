@@ -3,7 +3,7 @@ function Level({
     start,
     end,
     enemySpawn,
-    timeLimit
+    timeLimit,
 }) {
     if (maze.length != CONFIG.maze.row || (maze[0] && maze[0].length != CONFIG.maze.column)) {
         throw new Error("Invalid Maze");

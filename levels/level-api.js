@@ -1,6 +1,6 @@
 function getLatestLevelByUser({
-    username = ""
-}) {
-    return MAZE_LEVEL_1;
-}
-
+                username = ""
+            }) {
+                return MAZE_LEVEL_1;
+            }
+            

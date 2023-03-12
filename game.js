@@ -1,11 +1,12 @@
 const resources = new Resources();
 const renderer = new Renderer();
-const inputHandler = new InputHandler();
 
 const context = resources.context;
 const assets = resources.assets;
 
 const gameState = new GameState(context);
+
+let firstTime = true;
 
 function normalizeTimePassed(value) {
     let minutes = Math.trunc(value / 60);
@@ -14,9 +15,93 @@ function normalizeTimePassed(value) {
 }
 
 function update(deltaTime, secondPassed) {
-    gameState.currentPlayer.update(inputHandler.keys, deltaTime);
     if (gameState.gameOverChecker(secondPassed)) {
         return;
+    }
+    if (gameState.currentPlayer.x <= (gameState.currentEnemy.x + 0.5)
+		&& gameState.currentEnemy.x <= (gameState.currentPlayer.x + 0.5)
+		&& gameState.currentPlayer.y <= (gameState.currentEnemy.y + 0.5)
+		&& gameState.currentEnemy.y <= (gameState.currentPlayer.y + 0.5)) 
+	{
+        gameState.nowOver();
+        return;
+    }
+
+    if (secondPassed <= 0.5 && firstTime) {
+        document.addEventListener("keydown", move);
+    } else {
+        firstTime = false;
+    }
+
+    function move(event) {
+        var keyPressed = String.fromCharCode(event.keyCode);
+
+        if (keyPressed == "W") {
+            for (i = 0; i < gameState.currentLevel.maze.length; i++) {
+                for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
+                    if (
+                        gameState.currentLevel.maze[i][j] == 1
+                        && gameState.currentPlayer.y - 0.7 < i 
+                        && gameState.currentPlayer.y + 0.3 > i
+                        && gameState.currentPlayer.x + 0.49 > j
+                        && gameState.currentPlayer.x - 0.49 < j) 
+                    {
+                        return;
+                    }    
+                }
+            }
+            gameState.currentPlayer.y -= gameState.currentPlayer.speed * deltaTime;   
+        }
+        if (keyPressed == "S") {
+            for (i = 0; i < gameState.currentLevel.maze.length; i++) {
+                for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
+                    if (
+                        gameState.currentLevel.maze[i][j] == 1
+                        && gameState.currentPlayer.y - 0.3 < i 
+                        && gameState.currentPlayer.y + 0.7 > i
+                        && gameState.currentPlayer.x + 0.49 > j
+                        && gameState.currentPlayer.x - 0.49 < j) 
+                    {
+                        return;
+                    }    
+                }
+            }
+            gameState.currentPlayer.y += gameState.currentPlayer.speed * deltaTime;
+        }
+        if (keyPressed == "A") {
+            for (i = 0; i < gameState.currentLevel.maze.length; i++) {
+                for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
+                    if (
+                        (gameState.currentLevel.maze[i][j] == 1
+                        && gameState.currentPlayer.y - 0.49 < i 
+                        && gameState.currentPlayer.y + 0.49 > i
+                        && gameState.currentPlayer.x + 0.3 > j
+                        && gameState.currentPlayer.x - 0.7 < j)
+                        || gameState.currentPlayer.x < 0) 
+                    {
+                        return;
+                    }    
+                }
+            }
+            gameState.currentPlayer.x -= gameState.currentPlayer.speed * deltaTime;
+        }
+        if (keyPressed == "D") {
+            for (i = 0; i < gameState.currentLevel.maze.length; i++) {
+                for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
+                    if (
+                        (gameState.currentLevel.maze[i][j] == 1
+                        && gameState.currentPlayer.y - 0.49 < i 
+                        && gameState.currentPlayer.y + 0.49 > i
+                        && gameState.currentPlayer.x + 0.7 > j
+                        && gameState.currentPlayer.x - 0.3 < j)
+                        || gameState.currentPlayer.x > 19) 
+                    {
+                        return;
+                    }    
+                }
+            }
+            gameState.currentPlayer.x += gameState.currentPlayer.speed * deltaTime;
+        }
     }
 }
 
@@ -24,8 +109,9 @@ function render() {
     renderer.clear();
     renderer.renderMap(context, assets, gameState.currentLevel);
     renderer.renderTimeLimit(context, gameState.timePassed);
-    renderer.renderCharacter(context, gameState.gameFrames, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
-    renderer.renderCharacter(context, gameState.gameFrames, gameState.currentEnemy, assets["enemy"].getElement(), ENEMY_ANIMATIONS);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.currentEnemy, assets["enemy"].getElement(), ENEMY_ANIMATIONS);
+
 }
 
 function gameLoop() {
@@ -45,7 +131,9 @@ function gameLoop() {
     update(delta / 1000, secondPassed);
     render();
     gameState.lastTime = now;
-    gameState.gameFrames++;
+    gameState.gameFrame++;
+
+
 
     requestAnimationFrame(gameLoop);
 }
@@ -57,5 +145,6 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 function startGame() {
     gameState.start();
     gameLoop();
+    
 }
 
