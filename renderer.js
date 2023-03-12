@@ -67,13 +67,15 @@ Renderer.prototype.renderCharacter = function(context, gameFrames, character, pl
     let frameX = animations[characterState].loc[position].x;
     let frameY = animations[characterState].loc[position].y;
 
+    let x = CONFIG.asset.marginLeft + character.x * CONFIG.asset.width;
+    let y = CONFIG.asset.marginTop + character.y * CONFIG.asset.height;
+
     if (CONFIG.game.debug) {
-        context.strokeRect(CONFIG.asset.marginLeft + character.x * CONFIG.asset.width, CONFIG.asset.marginTop + character.y * CONFIG.asset.height,
-            character.width, character.height);
+        context.strokeRect(x, y, character.width, character.height);
     }
     context.drawImage(playerAsset, frameX, frameY,
         spriteWidth, spriteHeight,
-        CONFIG.asset.marginLeft + character.x * CONFIG.asset.width, CONFIG.asset.marginTop + character.y * CONFIG.asset.height,
+        x, y,
         character.width, character.height);
 }
 
@@ -86,7 +88,8 @@ Renderer.prototype.renderTimeLimit = function(context, value) {
 
     context.font = "48px serif"
     context.fillStyle = "#ff0000"
-    context.fillText(__internal__normalizeTimePassed(value), CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, CONFIG.asset.marginTop - 15);
+    context.fillText(__internal__normalizeTimePassed(value), 
+        CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, CONFIG.asset.marginTop - 15);
 }
 
 Renderer.prototype.renderMap = function(context, assets, levelMaze) {
