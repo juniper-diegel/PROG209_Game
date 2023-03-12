@@ -5,7 +5,7 @@ function PlayerEntity({
     this.y = startPos.y;
     this.width = CONFIG.asset.width;
     this.height = CONFIG.asset.height;
-    this.speed = 0.15;
+    this.speed = 0.45;
     this.faceTo = "right";
     this.direction = "right";
     this.currentState = {
@@ -55,11 +55,11 @@ PlayerEntity.prototype.changePosition = function({
 }
 
 PlayerEntity.prototype.idle = function() {
-    this.changePosition({
-        direction: this.faceTo,
+    let oldCurrentState = this.currentState;
+    this.currentState = {
         type: "idle",
-        speed: 0
-    });
+        name: "idle" + this.faceTo.capitalize()
+    }
 }
 
 PlayerEntity.prototype.move = function(direction) {
@@ -69,11 +69,16 @@ PlayerEntity.prototype.move = function(direction) {
     });
 }
 
+PlayerEntity.prototype.keepMoving = function() {
+    this.move(this.direction);
+    setTimeout(() => this.idle(), 300);
+}
+
+
 PlayerEntity.prototype.attack = function(direction) {
     this.changePosition({
         direction: direction,
         type: "attack",
-        speed: 0
     });
 }
 
