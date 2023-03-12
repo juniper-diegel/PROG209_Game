@@ -11,6 +11,6 @@ const CONFIG = {
     },
     game: {
         staggerFrames: 5,
-        debug:false 
+        debug: false
     }
 }

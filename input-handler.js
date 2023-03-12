@@ -6,9 +6,11 @@ function InputHandler() {
             || e.key === "ArrowLeft" || e.key === "ArrowRight"
             || e.key === "Shift" || e.key === "d")
             && this.keys.indexOf(e.code) === -1) { // can't multiple add the same keys
-            this.keys.push(e.code);
-
-            CONFIG.game.debug = true;
+            if (e.key === "d") {
+                CONFIG.game.debug = true;
+            } else {
+                this.keys.push(e.code);
+            }
         }
     });
 
