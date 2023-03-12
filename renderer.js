@@ -12,6 +12,11 @@ Renderer.prototype.renderBackground = function(context, backgroundAsset, { x, y 
 Renderer.prototype.renderMaze = function(context, { treeImage, roadImage }, maze) {
 
     function __internal__renderNature(image, { i, j }) {
+        if (CONFIG.game.debug) {
+            context.strokeRect(CONFIG.asset.width * j + CONFIG.asset.marginLeft,
+                CONFIG.asset.height * i + CONFIG.asset.marginTop,
+                CONFIG.asset.width, CONFIG.asset.height);
+        }
         context.drawImage(image,
             CONFIG.asset.width * j + CONFIG.asset.marginLeft,
             CONFIG.asset.height * i + CONFIG.asset.marginTop,
@@ -62,6 +67,10 @@ Renderer.prototype.renderCharacter = function(context, gameFrames, character, pl
     let frameX = animations[characterState].loc[position].x;
     let frameY = animations[characterState].loc[position].y;
 
+    if (CONFIG.game.debug) {
+        context.strokeRect(CONFIG.asset.marginLeft + character.x * CONFIG.asset.width, CONFIG.asset.marginTop + character.y * CONFIG.asset.height,
+            character.width, character.height);
+    }
     context.drawImage(playerAsset, frameX, frameY,
         spriteWidth, spriteHeight,
         CONFIG.asset.marginLeft + character.x * CONFIG.asset.width, CONFIG.asset.marginTop + character.y * CONFIG.asset.height,
@@ -77,7 +86,7 @@ Renderer.prototype.renderTimeLimit = function(context, value) {
 
     context.font = "48px serif"
     context.fillStyle = "#ff0000"
-    context.fillText(__internal__normalizeTimePassed(value), CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, 50);
+    context.fillText(__internal__normalizeTimePassed(value), CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, CONFIG.asset.marginTop - 15);
 }
 
 Renderer.prototype.renderMap = function(context, assets, levelMaze) {

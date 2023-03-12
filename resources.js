@@ -11,6 +11,10 @@ function Resources() {
             height: canvas.height
         };
 
+        if (CONFIG.game.debug) {
+            context.strokeStyle = "#FF0000";
+        }
+
         document.body.appendChild(canvas);
 
         return context;

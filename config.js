@@ -7,9 +7,10 @@ const CONFIG = {
         width: 50,
         height: 50,
         marginTop: 50,
-        marginLeft: 100
+        marginLeft: 80
     },
     game: {
-        staggerFrames: 5 
+        staggerFrames: 5,
+        debug:false 
     }
 }
