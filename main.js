@@ -6,12 +6,17 @@ window.addEventListener('DOMContentLoaded', (event) => {
     }
 
     document.getElementById("start-screen").addEventListener("click", function() {
-        document.getElementById("start-screen").style = "display:none";
+        document.getElementById("start-screen").style = "display: none";
         runGame();
     });
 
     document.getElementById("game-over-screen").addEventListener("click", function() {
         document.getElementById("game-over-screen").style = "display: none";
+        runGame();
+    });
+
+    document.getElementById("you-win-screen").addEventListener("click", function() {
+        document.getElementById("you-win-screen").style = "display: none";
         runGame();
     });
 

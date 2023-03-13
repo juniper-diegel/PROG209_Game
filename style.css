@@ -8,6 +8,9 @@
 #game-over-screen {
     display: none
 }
+#you-win-screen {
+    display: none;
+}
 body {
     background: black;
 }

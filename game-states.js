@@ -52,7 +52,13 @@ function GameState(context) {
             
             GameState.prototype.gameOver = function() {
                 context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
-                document.getElementById("game-over-screen").style = "display: block"
+                document.getElementById("game-over-screen").style = "display: block";
+                stopAudio(document.getElementById("audio"));
+            }
+
+            GameState.prototype.youWin = function() {
+                context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
+                document.getElementById("you-win-screen").style = "display: block";
                 stopAudio(document.getElementById("audio"));
             }
             

@@ -5,6 +5,7 @@ const context = resources.context;
 const assets = resources.assets;
 
 const gameState = new GameState(context);
+const keyInput = new InputHandler();
 
 let firstTime = true;
 
@@ -120,6 +121,12 @@ function gameLoop() {
         gameState.reset();
         return;
     }
+    if (gameState.currentPlayer.x + 0.1 > gameState.currentLevel.end.x && !firstTime) {
+        gameState.youWin();
+        gameState.reset();
+        renderer.clear();
+        return;
+    }
     let now = Date.now();
     let lastTime = gameState.lastTime;
     if (!lastTime) {
@@ -145,6 +152,6 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 function startGame() {
     gameState.start();
     gameLoop();
-    
+    console.log(gameState.currentLevel.end.x);
 }
 
