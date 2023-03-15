@@ -23,6 +23,8 @@ function Resources() {
         assets["road"] = new ImageAsset("assets/road.png");
         assets["player"] = new ImageAsset("assets/player-2.png");
         assets["enemy"] = new ImageAsset("assets/bowser-2.png");
+        assets["victory-audio"] = new AudioAsset("assets/victory.wav");
+        assets["game-over-audio"] = new AudioAsset("assets/game-over.wav");
 
         return assets;
     }

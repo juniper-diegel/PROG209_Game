@@ -17,6 +17,8 @@ function normalizeTimePassed(value) {
 
 function update(deltaTime, secondPassed) {
     if (gameState.gameOverChecker(secondPassed)) {
+        // time out === game over
+        assets["game-over-audio"].play();
         return;
     }
     if (gameState.currentPlayer.x <= (gameState.currentEnemy.x + 0.5)
@@ -24,7 +26,7 @@ function update(deltaTime, secondPassed) {
         && gameState.currentPlayer.y <= (gameState.currentEnemy.y + 0.5)
         && gameState.currentEnemy.y <= (gameState.currentPlayer.y + 0.5)) {
         gameState.nowOver();
-        playAudio(gameState.currentPlayer.hitBadGuySound);
+        assets["game-over-audio"].play();
         return;
     }
 
@@ -46,7 +48,7 @@ function update(deltaTime, secondPassed) {
                         && gameState.currentPlayer.y + 0.3 > i
                         && gameState.currentPlayer.x + 0.49 > j
                         && gameState.currentPlayer.x - 0.49 < j) {
-                        playAudio(gameState.currentPlayer.hitTheWall);
+                        gameState.currentPlayer.hitTheWall.play()
                         return;
                     }
                 }
@@ -62,7 +64,7 @@ function update(deltaTime, secondPassed) {
                         && gameState.currentPlayer.y + 0.7 > i
                         && gameState.currentPlayer.x + 0.49 > j
                         && gameState.currentPlayer.x - 0.49 < j) {
-                        playAudio(gameState.currentPlayer.hitTheWall);
+                        gameState.currentPlayer.hitTheWall.play()
                         return;
                     }
                 }
@@ -79,7 +81,7 @@ function update(deltaTime, secondPassed) {
                             && gameState.currentPlayer.x + 0.3 > j
                             && gameState.currentPlayer.x - 0.7 < j)
                         || gameState.currentPlayer.x < 0) {
-                        playAudio(gameState.currentPlayer.hitTheWall);
+                        gameState.currentPlayer.hitTheWall.play()
                         return;
                     }
                 }
@@ -96,7 +98,7 @@ function update(deltaTime, secondPassed) {
                             && gameState.currentPlayer.x + 0.7 > j
                             && gameState.currentPlayer.x - 0.3 < j)
                         || gameState.currentPlayer.x > 19) {
-                        playAudio(gameState.currentPlayer.hitTheWall);
+                        gameState.currentPlayer.hitTheWall.play()
                         return;
                     }
                 }
@@ -163,6 +165,7 @@ function gameLoop() {
         gameState.currentLevel.enemyCheckpoint = 0;
         gameState.reset();
         renderer.clear();
+        assets["victory-audio"].play();
         return;
     }
     let now = Date.now();

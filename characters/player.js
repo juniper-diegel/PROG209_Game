@@ -8,11 +8,7 @@ function PlayerEntity({
     this.speed = 0.15;
     this.currentState = "idle";
 
-    this.hitBadGuySound = new Audio();
-    this.hitBadGuySound.src = "assets/hit-bad-guy.wav";
-
-    this.hitTheWall = new Audio();
-    this.hitTheWall.src = "assets/hit-the-wall.ogg";
+    this.hitTheWall = new AudioAsset("assets/hit-the-wall.ogg");
 }
 
 PlayerEntity.prototype.changeX = function(e) {
