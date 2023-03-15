@@ -47,7 +47,7 @@ Renderer.prototype.renderPlayer = function(context, gameFrame, player, playerAss
         spriteWidth, spriteHeight,
         CONFIG.asset.marginLeft + player.x * CONFIG.asset.width, CONFIG.asset.marginTop + player.y * CONFIG.asset.height,
         player.width, player.height);
-    }
+}
 
 Renderer.prototype.renderTimeLimit = function(context, value) {
     function __internal__normalizeTimePassed(value) {
@@ -58,7 +58,13 @@ Renderer.prototype.renderTimeLimit = function(context, value) {
 
     context.font = "48px serif"
     context.fillStyle = "#ff0000"
-    context.fillText(__internal__normalizeTimePassed(value), CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2, 50);
+    context.fillText(__internal__normalizeTimePassed(value),
+        CONFIG.asset.width + (CONFIG.maze.row * CONFIG.asset.width) / 2,
+        CONFIG.asset.marginTop - 15);
+}
+
+Renderer.prototype.renderPlayerPoint = function(context, player) {
+    context.fillText("Point: " + player.point, CONFIG.asset.width * 2, CONFIG.asset.marginTop - 15);
 }
 
 Renderer.prototype.renderMap = function(context, assets, levelMaze) {

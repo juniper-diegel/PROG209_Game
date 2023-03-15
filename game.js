@@ -151,6 +151,7 @@ function render() {
     renderer.renderPlayer(context, gameState.gameFrame, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
     renderer.renderPlayer(context, gameState.gameFrame, gameState.currentEnemy, assets["enemy"].getElement(), ENEMY_ANIMATIONS);
 
+    renderer.renderPlayerPoint(context, gameState.currentPlayer);
 }
 
 function gameLoop() {

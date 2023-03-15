@@ -3,12 +3,13 @@ function PlayerEntity({
 }) {
     this.x = startPos.x;
     this.y = startPos.y;
-    this.width = CONFIG.asset.width;
-    this.height = CONFIG.asset.height;
+    this.width = CONFIG.asset.width - 15;
+    this.height = CONFIG.asset.height - 15;
     this.speed = 0.15;
     this.currentState = "idle";
 
     this.hitTheWall = new AudioAsset("assets/hit-the-wall.ogg");
+    this.point = 0;
 }
 
 PlayerEntity.prototype.changeX = function(e) {
