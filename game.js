@@ -5,7 +5,7 @@ const context = resources.context;
 const assets = resources.assets;
 
 const gameState = new GameState(context);
-const keyInput = new InputHandler();
+let keyInput = new InputHandler();
 
 let firstTime = true;
 
@@ -106,6 +106,47 @@ function update(deltaTime, secondPassed) {
     }
 }
 
+function updateEnemyCheckpoint() {
+    let check = gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint];
+    if ( 
+         gameState.currentEnemy.y - 0.4 < check.y
+         && gameState.currentEnemy.y + 0.4 > check.y
+         && gameState.currentEnemy.x - 0.4 < check.x
+         && gameState.currentEnemy.x + 0.4 > check.x)
+        {
+            if (gameState.currentLevel.enemyCheckpoint + 1 < gameState.currentLevel.enemyCheckpoint.length) {
+                gameState.currentLevel.enemyCheckpoint++;
+            } else {
+                gameState.currentLevel.enemyCheckpoint = 0;
+            }
+            
+        }
+        console.log("Enemy Checkpoint: " + gameState.currentLevel.enemyCheckpoint);
+        console.log("Enemy Y Coord: " + gameState.currentEnemy.y);
+        console.log("Enemy Direction: " + gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint]);
+        console.log("Enemy Speed " + gameState.currentEnemy.speed);
+}
+
+function moveEnemy(deltaTime) {
+    
+    if (gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint] == "up") {
+        gameState.currentEnemy.y -= gameState.currentEnemy.speed * deltaTime;
+    }
+    else if (gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint] == "down") {
+        gameState.currentEnemy.y += gameState.currentEnemy.speed * deltaTime;
+    }
+    else if (gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint] == "left") {
+        gameState.currentEnemy.x -= gameState.currentEnemy.speed * deltaTime;
+    }
+    else if (gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint] == "right") {
+        gameState.currentEnemy.x += gameState.currentEnemy.speed * deltaTime;
+    }
+    else {
+        console.log("ERROR: Enemy Direction not found!");
+    }
+    updateEnemyCheckpoint();
+}
+
 function render() {
     renderer.clear();
     renderer.renderMap(context, assets, gameState.currentLevel);
@@ -137,9 +178,10 @@ function gameLoop() {
     let secondPassed = calculateSecondPassed(now, gameState.startTime);
     update(delta / 1000, secondPassed);
     render();
+    moveEnemy(delta / 1000);
     gameState.lastTime = now;
     gameState.gameFrame++;
-
+    gameState.currentEnemy.speed *= secondPassed * (delta / 1000);
 
 
     requestAnimationFrame(gameLoop);
@@ -152,6 +194,5 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 function startGame() {
     gameState.start();
     gameLoop();
-    console.log(gameState.currentLevel.end.x);
 }
 

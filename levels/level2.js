@@ -33,5 +33,10 @@ const MAZE_LEVEL_2 = new Level({
         x: 2,
         y: 18
     },
+    enemyTurns: {
+        coord: [{x: 2, y: 5}, {x: 18, y: 5}, {x: 18, y: 9}, {x: 2, y: 9}, 
+                {x: 2, y: 11}, {x: 18, y: 11}, {x: 18, y: 18}],
+        turn: ["right", "down", "left", "down", "right", "down", "left"]
+    },
     timeLimit: 300,
 });
