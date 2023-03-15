@@ -1,6 +1,6 @@
-function playAudio(audio) {
+function playAudio(audio, volume = 0.3) {
     if (audio) {
-        audio.volume = 0.3;
+        audio.volume = volume;
         audio.play();
     }
 }

@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', (event) => {
 
     function runGame() {
-        playAudio(document.getElementById("audio"));
+        playAudio(document.getElementById("audio"), 0.1);
         startGame();
     }
 

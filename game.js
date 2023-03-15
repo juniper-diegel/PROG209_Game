@@ -20,11 +20,11 @@ function update(deltaTime, secondPassed) {
         return;
     }
     if (gameState.currentPlayer.x <= (gameState.currentEnemy.x + 0.5)
-		&& gameState.currentEnemy.x <= (gameState.currentPlayer.x + 0.5)
-		&& gameState.currentPlayer.y <= (gameState.currentEnemy.y + 0.5)
-		&& gameState.currentEnemy.y <= (gameState.currentPlayer.y + 0.5)) 
-	{
+        && gameState.currentEnemy.x <= (gameState.currentPlayer.x + 0.5)
+        && gameState.currentPlayer.y <= (gameState.currentEnemy.y + 0.5)
+        && gameState.currentEnemy.y <= (gameState.currentPlayer.y + 0.5)) {
         gameState.nowOver();
+        playAudio(gameState.currentPlayer.hitBadGuySound);
         return;
     }
 
@@ -42,29 +42,29 @@ function update(deltaTime, secondPassed) {
                 for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
                     if (
                         gameState.currentLevel.maze[i][j] == 1
-                        && gameState.currentPlayer.y - 0.7 < i 
+                        && gameState.currentPlayer.y - 0.7 < i
                         && gameState.currentPlayer.y + 0.3 > i
                         && gameState.currentPlayer.x + 0.49 > j
-                        && gameState.currentPlayer.x - 0.49 < j) 
-                    {
+                        && gameState.currentPlayer.x - 0.49 < j) {
+                        playAudio(gameState.currentPlayer.hitTheWall);
                         return;
-                    }    
+                    }
                 }
             }
-            gameState.currentPlayer.y -= gameState.currentPlayer.speed * deltaTime;   
+            gameState.currentPlayer.y -= gameState.currentPlayer.speed * deltaTime;
         }
         if (keyPressed == "S") {
             for (i = 0; i < gameState.currentLevel.maze.length; i++) {
                 for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
                     if (
                         gameState.currentLevel.maze[i][j] == 1
-                        && gameState.currentPlayer.y - 0.3 < i 
+                        && gameState.currentPlayer.y - 0.3 < i
                         && gameState.currentPlayer.y + 0.7 > i
                         && gameState.currentPlayer.x + 0.49 > j
-                        && gameState.currentPlayer.x - 0.49 < j) 
-                    {
+                        && gameState.currentPlayer.x - 0.49 < j) {
+                        playAudio(gameState.currentPlayer.hitTheWall);
                         return;
-                    }    
+                    }
                 }
             }
             gameState.currentPlayer.y += gameState.currentPlayer.speed * deltaTime;
@@ -74,14 +74,14 @@ function update(deltaTime, secondPassed) {
                 for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
                     if (
                         (gameState.currentLevel.maze[i][j] == 1
-                        && gameState.currentPlayer.y - 0.49 < i 
-                        && gameState.currentPlayer.y + 0.49 > i
-                        && gameState.currentPlayer.x + 0.3 > j
-                        && gameState.currentPlayer.x - 0.7 < j)
-                        || gameState.currentPlayer.x < 0) 
-                    {
+                            && gameState.currentPlayer.y - 0.49 < i
+                            && gameState.currentPlayer.y + 0.49 > i
+                            && gameState.currentPlayer.x + 0.3 > j
+                            && gameState.currentPlayer.x - 0.7 < j)
+                        || gameState.currentPlayer.x < 0) {
+                        playAudio(gameState.currentPlayer.hitTheWall);
                         return;
-                    }    
+                    }
                 }
             }
             gameState.currentPlayer.x -= gameState.currentPlayer.speed * deltaTime;
@@ -91,14 +91,14 @@ function update(deltaTime, secondPassed) {
                 for (j = 0; j < gameState.currentLevel.maze[0].length; j++) {
                     if (
                         (gameState.currentLevel.maze[i][j] == 1
-                        && gameState.currentPlayer.y - 0.49 < i 
-                        && gameState.currentPlayer.y + 0.49 > i
-                        && gameState.currentPlayer.x + 0.7 > j
-                        && gameState.currentPlayer.x - 0.3 < j)
-                        || gameState.currentPlayer.x > 19) 
-                    {
+                            && gameState.currentPlayer.y - 0.49 < i
+                            && gameState.currentPlayer.y + 0.49 > i
+                            && gameState.currentPlayer.x + 0.7 > j
+                            && gameState.currentPlayer.x - 0.3 < j)
+                        || gameState.currentPlayer.x > 19) {
+                        playAudio(gameState.currentPlayer.hitTheWall);
                         return;
-                    }    
+                    }
                 }
             }
             gameState.currentPlayer.x += gameState.currentPlayer.speed * deltaTime;
@@ -108,23 +108,22 @@ function update(deltaTime, secondPassed) {
 
 function updateEnemyCheckpoint() {
 
-    if ( 
-         gameState.currentEnemy.y - 0.15 < gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].y
-         && gameState.currentEnemy.y + 0.15 > gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].y
-         && gameState.currentEnemy.x - 0.15 < gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].x
-         && gameState.currentEnemy.x + 0.15 > gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].x)
-        {
-            if (gameState.currentLevel.enemyCheckpoint + 1 < gameState.currentLevel.enemyTurns.coord.length) {
-                gameState.currentLevel.enemyCheckpoint++;
-            } else {
-                gameState.currentLevel.enemyCheckpoint = 0;
-            }
-            
+    if (
+        gameState.currentEnemy.y - 0.15 < gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].y
+        && gameState.currentEnemy.y + 0.15 > gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].y
+        && gameState.currentEnemy.x - 0.15 < gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].x
+        && gameState.currentEnemy.x + 0.15 > gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].x) {
+        if (gameState.currentLevel.enemyCheckpoint + 1 < gameState.currentLevel.enemyTurns.coord.length) {
+            gameState.currentLevel.enemyCheckpoint++;
+        } else {
+            gameState.currentLevel.enemyCheckpoint = 0;
         }
+
+    }
 }
 
 function moveEnemy(deltaTime) {
-    
+
     if (gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint] == "up") {
         gameState.currentEnemy.y -= gameState.currentEnemy.speed * deltaTime;
     }
