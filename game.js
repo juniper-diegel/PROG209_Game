@@ -107,24 +107,20 @@ function update(deltaTime, secondPassed) {
 }
 
 function updateEnemyCheckpoint() {
-    let check = gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint];
+
     if ( 
-         gameState.currentEnemy.y - 0.4 < check.y
-         && gameState.currentEnemy.y + 0.4 > check.y
-         && gameState.currentEnemy.x - 0.4 < check.x
-         && gameState.currentEnemy.x + 0.4 > check.x)
+         gameState.currentEnemy.y - 0.15 < gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].y
+         && gameState.currentEnemy.y + 0.15 > gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].y
+         && gameState.currentEnemy.x - 0.15 < gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].x
+         && gameState.currentEnemy.x + 0.15 > gameState.currentLevel.enemyTurns.coord[gameState.currentLevel.enemyCheckpoint].x)
         {
-            if (gameState.currentLevel.enemyCheckpoint + 1 < gameState.currentLevel.enemyCheckpoint.length) {
+            if (gameState.currentLevel.enemyCheckpoint + 1 < gameState.currentLevel.enemyTurns.coord.length) {
                 gameState.currentLevel.enemyCheckpoint++;
             } else {
                 gameState.currentLevel.enemyCheckpoint = 0;
             }
             
         }
-        console.log("Enemy Checkpoint: " + gameState.currentLevel.enemyCheckpoint);
-        console.log("Enemy Y Coord: " + gameState.currentEnemy.y);
-        console.log("Enemy Direction: " + gameState.currentLevel.enemyTurns.turn[gameState.currentLevel.enemyCheckpoint]);
-        console.log("Enemy Speed " + gameState.currentEnemy.speed);
 }
 
 function moveEnemy(deltaTime) {
@@ -159,11 +155,13 @@ function render() {
 function gameLoop() {
     if (gameState.isGameOver()) {
         gameState.gameOver();
+        gameState.currentLevel.enemyCheckpoint = 0;
         gameState.reset();
         return;
     }
     if (gameState.currentPlayer.x + 0.1 > gameState.currentLevel.end.x && !firstTime) {
         gameState.youWin();
+        gameState.currentLevel.enemyCheckpoint = 0;
         gameState.reset();
         renderer.clear();
         return;
@@ -181,8 +179,7 @@ function gameLoop() {
     moveEnemy(delta / 1000);
     gameState.lastTime = now;
     gameState.gameFrame++;
-    gameState.currentEnemy.speed *= secondPassed * (delta / 1000);
-
+    gameState.currentEnemy.speed *= 1 + (delta / 100000);
 
     requestAnimationFrame(gameLoop);
 }
@@ -193,6 +190,7 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 
 function startGame() {
     gameState.start();
+    gameState.currentEnemy.speed = 1;
     gameLoop();
 }
 
