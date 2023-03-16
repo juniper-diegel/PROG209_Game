@@ -10,6 +10,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
         runGame();
     });
 
+    document.getElementById("next-level-screen").addEventListener("click", function() {
+        document.getElementById("next-level-screen").style = "display: none";
+        runGame();
+    });
+
     document.getElementById("game-over-screen").addEventListener("click", function() {
         document.getElementById("game-over-screen").style = "display: none";
         runGame();

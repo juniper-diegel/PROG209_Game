@@ -1,5 +1,6 @@
 function PlayerEntity({
     startPos,
+    point
 }) {
     this.x = startPos.x;
     this.y = startPos.y;
@@ -9,7 +10,8 @@ function PlayerEntity({
     this.currentState = "idle";
 
     this.hitTheWall = new AudioAsset("assets/hit-the-wall.ogg");
-    this.point = 0;
+    this.point = point;
+    this.wins = 0;
 }
 
 PlayerEntity.prototype.changeX = function(e) {

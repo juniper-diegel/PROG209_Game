@@ -8,6 +8,9 @@
 #game-over-screen {
     display: none
 }
+#next-level-screen {
+    display: none;
+}
 #you-win-screen {
     display: none;
 }

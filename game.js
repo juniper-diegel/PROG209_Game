@@ -12,6 +12,8 @@ let object2Caught = false;
 let object3Caught = false;
 
 let firstTime = true;
+let playerWins = 0;
+let playerPoints = 0;
 
 function normalizeTimePassed(value) {
     let minutes = Math.trunc(value / 60);
@@ -114,10 +116,10 @@ function update(deltaTime, secondPassed) {
 
 function updateObject() {
     if (
-        gameState.currentPlayer.y - 0.2 < gameState.currentLevel.object1Pos.y
-        && gameState.currentPlayer.y + 0.2 > gameState.currentLevel.object1Pos.y
-        && gameState.currentPlayer.x - 0.2 < gameState.currentLevel.object1Pos.x
-        && gameState.currentPlayer.x + 0.2 > gameState.currentLevel.object1Pos.x
+        gameState.currentPlayer.y - 0.25 < gameState.currentLevel.object1Pos.y
+        && gameState.currentPlayer.y + 0.25 > gameState.currentLevel.object1Pos.y
+        && gameState.currentPlayer.x - 0.25 < gameState.currentLevel.object1Pos.x
+        && gameState.currentPlayer.x + 0.25 > gameState.currentLevel.object1Pos.x
         && !object1Caught
     )
     {
@@ -125,13 +127,14 @@ function updateObject() {
         gameState.object1.x = 999;
         gameState.object1.y = 999;
         gameState.currentPlayer.point += gameState.object1.pointValue;
+        playerPoints += gameState.object1.pointValue;
     }
 
     if (
-        gameState.currentPlayer.y - 0.2 < gameState.currentLevel.object2Pos.y
-        && gameState.currentPlayer.y + 0.2 > gameState.currentLevel.object2Pos.y
-        && gameState.currentPlayer.x - 0.2 < gameState.currentLevel.object2Pos.x
-        && gameState.currentPlayer.x + 0.2 > gameState.currentLevel.object2Pos.x
+        gameState.currentPlayer.y - 0.25 < gameState.currentLevel.object2Pos.y
+        && gameState.currentPlayer.y + 0.25 > gameState.currentLevel.object2Pos.y
+        && gameState.currentPlayer.x - 0.25 < gameState.currentLevel.object2Pos.x
+        && gameState.currentPlayer.x + 0.25 > gameState.currentLevel.object2Pos.x
         && !object2Caught
     )
     {
@@ -139,13 +142,14 @@ function updateObject() {
         gameState.object2.x = 999;
         gameState.object2.y = 999;
         gameState.currentPlayer.point += gameState.object2.pointValue;
+        playerPoints += gameState.object2.pointValue;
     }
 
     if (
-        gameState.currentPlayer.y - 0.2 < gameState.currentLevel.object3Pos.y
-        && gameState.currentPlayer.y + 0.2 > gameState.currentLevel.object3Pos.y
-        && gameState.currentPlayer.x - 0.2 < gameState.currentLevel.object3Pos.x
-        && gameState.currentPlayer.x + 0.2 > gameState.currentLevel.object3Pos.x
+        gameState.currentPlayer.y - 0.25 < gameState.currentLevel.object3Pos.y
+        && gameState.currentPlayer.y + 0.25 > gameState.currentLevel.object3Pos.y
+        && gameState.currentPlayer.x - 0.25 < gameState.currentLevel.object3Pos.x
+        && gameState.currentPlayer.x + 0.25 > gameState.currentLevel.object3Pos.x
         && !object3Caught
     )
     {
@@ -153,6 +157,7 @@ function updateObject() {
         gameState.object3.x = 999;
         gameState.object3.y = 999;
         gameState.currentPlayer.point += gameState.object3.pointValue;
+        playerPoints += gameState.object3.pointValue;
     }
 }
 
@@ -209,22 +214,39 @@ function gameLoop() {
     if (gameState.isGameOver()) {
         gameState.gameOver();
         gameState.currentLevel.enemyCheckpoint = 0;
-        gameState.reset();
+        gameState.reset(0, 0);
+        playerWins = 0;
+        playerPoints = 0;
         object1Caught = false;
         object2Caught = false;
         object3Caught = false;
         return;
     }
     if (gameState.currentPlayer.x + 0.1 > gameState.currentLevel.end.x && !firstTime) {
-        gameState.youWin();
-        gameState.currentLevel.enemyCheckpoint = 0;
-        gameState.reset();
-        object1Caught = false;
-        object2Caught = false;
-        object3Caught = false;
-        renderer.clear();
-        assets["victory-audio"].play();
-        return;
+        playerWins++;
+
+        if (playerWins < 3) {
+            gameState.nextLevel();
+            gameState.currentLevel.enemyCheckpoint = 0;
+            gameState.reset(playerWins, playerPoints);
+            object1Caught = false;
+            object2Caught = false;
+            object3Caught = false;
+            return;
+        } else {
+            gameState.youWin();
+            gameState.currentLevel.enemyCheckpoint = 0;
+            gameState.reset(0, 0);
+            playerWins = 0;
+            playerPoints = 0;
+            object1Caught = false;
+            object2Caught = false;
+            object3Caught = false;
+            renderer.clear();
+            assets["victory-audio"].play();
+            return;
+        }
+        
     }
     let now = Date.now();
     let lastTime = gameState.lastTime;
@@ -250,8 +272,8 @@ function calculateSecondPassed(startInLoop, startGameTime) {
 }
 
 function startGame() {
-    gameState.start();
-    gameState.currentEnemy.speed = 1;
+    gameState.start(playerWins, playerPoints);
+    gameState.currentEnemy.speed = 1.2;
     gameLoop();
 }
 

@@ -14,8 +14,8 @@ function GameState(context) {
                 this.context = context;
             }
             
-            GameState.prototype.start = function() {
-                this.reset();
+            GameState.prototype.start = function(playerWins, playerPoints) {
+                this.reset(playerWins, playerPoints);
             }
             
             GameState.prototype.gameOverChecker = function(secondPassed) {
@@ -38,15 +38,16 @@ function GameState(context) {
                 return this.isOver;
             }
             
-            GameState.prototype.reset = function() {
+            GameState.prototype.reset = function(wins, point) {
                 this.startTime = this.lastTime = Date.now();
                 this.timePassed = 0;
                 this.gameFrame = 0;
                 this.isOver = false;
             
-                this.currentLevel = getLatestLevelByUser("");
+                this.currentLevel = getLatestLevelByUser("", wins);
                 this.currentPlayer = new PlayerEntity({
-                    startPos: this.currentLevel.start
+                    startPos: this.currentLevel.start,
+                    point: point
                 });
                 this.currentEnemy = new PlayerEntity({
                     startPos: this.currentLevel.enemySpawn
@@ -69,6 +70,11 @@ function GameState(context) {
                 context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
                 document.getElementById("game-over-screen").style = "display: block";
                 stopAudio(document.getElementById("audio"));
+            }
+
+            GameState.prototype.nextLevel = function() {
+                context.clearRect(0, 0, CONFIG.canvas.width, CONFIG.canvas.height);
+                document.getElementById("next-level-screen").style = "display: block";
             }
 
             GameState.prototype.youWin = function() {
