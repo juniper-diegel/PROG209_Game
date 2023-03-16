@@ -39,5 +39,8 @@ const MAZE_LEVEL_1 = new Level({
         turn: ["up", "right", "down", "left", "down", "right", "down", "left"]
     },
     enemyCheckpoint: 0,
-    timeLimit: 180,
+    object1Pos: {x: 11, y: 6},
+    object2Pos: {x: 3, y: 16},
+    object3Pos: {x: 18, y: 1},
+    timeLimit: 180
 });

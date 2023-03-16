@@ -51,3 +51,16 @@ const ENEMY_ANIMATIONS = {
         ]
     }
 }
+
+const OBJECT_ANIMATIONS = {
+    idle: {
+        frames: 3,
+        width: 45,
+        height: 60,
+        loc: [
+            { x: 0, y: 0 },
+            { x: 45, y: 0 },
+            { x: 90, y: 0 }
+        ]
+    }
+}

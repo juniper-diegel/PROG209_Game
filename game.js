@@ -7,6 +7,10 @@ const assets = resources.assets;
 const gameState = new GameState(context);
 let keyInput = new InputHandler();
 
+let object1Caught = false;
+let object2Caught = false;
+let object3Caught = false;
+
 let firstTime = true;
 
 function normalizeTimePassed(value) {
@@ -31,12 +35,12 @@ function update(deltaTime, secondPassed) {
     }
 
     if (secondPassed <= 0.5 && firstTime) {
-        document.addEventListener("keydown", move);
+        document.addEventListener("keydown", movePlayer);
     } else {
         firstTime = false;
     }
 
-    function move(event) {
+    function movePlayer(event) {
         var keyPressed = String.fromCharCode(event.keyCode);
 
         if (keyPressed == "W") {
@@ -108,6 +112,50 @@ function update(deltaTime, secondPassed) {
     }
 }
 
+function updateObject() {
+    if (
+        gameState.currentPlayer.y - 0.2 < gameState.currentLevel.object1Pos.y
+        && gameState.currentPlayer.y + 0.2 > gameState.currentLevel.object1Pos.y
+        && gameState.currentPlayer.x - 0.2 < gameState.currentLevel.object1Pos.x
+        && gameState.currentPlayer.x + 0.2 > gameState.currentLevel.object1Pos.x
+        && !object1Caught
+    )
+    {
+        object1Caught = true;
+        gameState.object1.x = 999;
+        gameState.object1.y = 999;
+        gameState.currentPlayer.point += gameState.object1.pointValue;
+    }
+
+    if (
+        gameState.currentPlayer.y - 0.2 < gameState.currentLevel.object2Pos.y
+        && gameState.currentPlayer.y + 0.2 > gameState.currentLevel.object2Pos.y
+        && gameState.currentPlayer.x - 0.2 < gameState.currentLevel.object2Pos.x
+        && gameState.currentPlayer.x + 0.2 > gameState.currentLevel.object2Pos.x
+        && !object2Caught
+    )
+    {
+        object2Caught = true;
+        gameState.object2.x = 999;
+        gameState.object2.y = 999;
+        gameState.currentPlayer.point += gameState.object2.pointValue;
+    }
+
+    if (
+        gameState.currentPlayer.y - 0.2 < gameState.currentLevel.object3Pos.y
+        && gameState.currentPlayer.y + 0.2 > gameState.currentLevel.object3Pos.y
+        && gameState.currentPlayer.x - 0.2 < gameState.currentLevel.object3Pos.x
+        && gameState.currentPlayer.x + 0.2 > gameState.currentLevel.object3Pos.x
+        && !object3Caught
+    )
+    {
+        object3Caught = true;
+        gameState.object3.x = 999;
+        gameState.object3.y = 999;
+        gameState.currentPlayer.point += gameState.object3.pointValue;
+    }
+}
+
 function updateEnemyCheckpoint() {
 
     if (
@@ -150,6 +198,9 @@ function render() {
     renderer.renderTimeLimit(context, gameState.timePassed);
     renderer.renderPlayer(context, gameState.gameFrame, gameState.currentPlayer, assets["player"].getElement(), PLAYER_ANIMATIONS);
     renderer.renderPlayer(context, gameState.gameFrame, gameState.currentEnemy, assets["enemy"].getElement(), ENEMY_ANIMATIONS);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.object1, assets["object"].getElement(), OBJECT_ANIMATIONS);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.object2, assets["object"].getElement(), OBJECT_ANIMATIONS);
+    renderer.renderPlayer(context, gameState.gameFrame, gameState.object3, assets["object"].getElement(), OBJECT_ANIMATIONS);
 
     renderer.renderPlayerPoint(context, gameState.currentPlayer);
 }
@@ -159,12 +210,18 @@ function gameLoop() {
         gameState.gameOver();
         gameState.currentLevel.enemyCheckpoint = 0;
         gameState.reset();
+        object1Caught = false;
+        object2Caught = false;
+        object3Caught = false;
         return;
     }
     if (gameState.currentPlayer.x + 0.1 > gameState.currentLevel.end.x && !firstTime) {
         gameState.youWin();
         gameState.currentLevel.enemyCheckpoint = 0;
         gameState.reset();
+        object1Caught = false;
+        object2Caught = false;
+        object3Caught = false;
         renderer.clear();
         assets["victory-audio"].play();
         return;
@@ -180,6 +237,7 @@ function gameLoop() {
     update(delta / 1000, secondPassed);
     render();
     moveEnemy(delta / 1000);
+    updateObject();
     gameState.lastTime = now;
     gameState.gameFrame++;
     gameState.currentEnemy.speed *= 1 + (delta / 100000);

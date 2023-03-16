@@ -7,6 +7,9 @@ function GameState(context) {
                 this.currentLevel = null;
                 this.currentPlayer = null;
                 this.currentEnemy = null;
+                this.object1 = null;
+                this.object2 = null;
+                this.object3 = null;
             
                 this.context = context;
             }
@@ -47,6 +50,18 @@ function GameState(context) {
                 });
                 this.currentEnemy = new PlayerEntity({
                     startPos: this.currentLevel.enemySpawn
+                });
+                this.object1 = new Object({
+                    pos: this.currentLevel.object1Pos,
+                    pointValue: 100
+                });
+                this.object2 = new Object({
+                    pos: this.currentLevel.object2Pos,
+                    pointValue: 100
+                });
+                this.object3 = new Object({
+                    pos: this.currentLevel.object3Pos,
+                    pointValue: 100
                 });
             }
             
